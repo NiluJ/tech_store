@@ -1,0 +1,52 @@
+name: Deploy to Test VM
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VM_SSH_KEY }}" > ~/.ssh/key.pem
+          chmod 600 ~/.ssh/key.pem
+
+      - name: Add VM to Known Hosts
+        run: |
+          ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy Application to Azure VM
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key.pem ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
+
+          set -e
+
+          echo "========== Connected to Azure VM =========="
+
+          cd ~/tech_store
+
+          git checkout test
+          git pull origin test
+
+          cd backend
+          npm install
+          pm2 restart backend
+
+          cd ..
+
+          npm install
+          pm2 restart frontend
+
+          sudo systemctl reload nginx
+
+          echo "========== Deployment Successful =========="
+
+          EOF
