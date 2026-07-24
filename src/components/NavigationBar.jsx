@@ -261,7 +261,7 @@ function NavigationBar({ cartItemCount }) {
             </Menu>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1, minWidth: 0 }}>
               <Link to="/" className="logo-link">
-                FUSION ELECTRONICS
+                NILESH ELECTRONICS
               </Link>
             </Typography>
           </>
