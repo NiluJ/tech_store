@@ -269,7 +269,7 @@ function NavigationBar({ cartItemCount }) {
           <>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', gap: 1, minWidth: 0 }}>
               <Link to="/" className="logo-link">
-                FUSION ELECTRONICS
+                NILESH ELECTRONICS
               </Link>
               <Typography component="span" variant="caption" sx={{ color: 'rgba(255,255,255,0.75)', whiteSpace: 'nowrap' }}>
                 Elevate Your Everyday Tech
